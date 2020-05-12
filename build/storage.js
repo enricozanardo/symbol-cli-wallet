@@ -52,21 +52,28 @@ function loadAccount() {
 exports.loadAccount = loadAccount;
 function loadWallet() {
     return __awaiter(this, void 0, void 0, function* () {
-        const PATH_HOME = `${os_1.default.homedir()}/${wallet_1.MOSAIC_NAME}-wallets`;
-        const PATH_WALLET = `${PATH_HOME}/${wallet_1.MOSAIC_NAME}-wallet.enry`;
-        const text = fs_1.default.readFileSync(PATH_WALLET, 'utf8');
-        const secrects = JSON.parse(text);
-        const password = readline_sync_1.default.question(`\nInput Password: `, {
-            hideEchoBack: true,
+        return new Promise((resolve, reject) => {
+            const PATH_HOME = `${os_1.default.homedir()}/${wallet_1.MOSAIC_NAME}-wallets`;
+            const PATH_WALLET = `${PATH_HOME}/${wallet_1.MOSAIC_NAME}-wallet.enry`;
+            const text = fs_1.default.readFileSync(PATH_WALLET, 'utf8');
+            const secrects = JSON.parse(text);
+            const password = readline_sync_1.default.question(`\nInput Password: `, {
+                hideEchoBack: true,
+            });
+            if (password != secrects.password.value) {
+                console.log(`\nPassword provided is wrong`);
+                loadWallet();
+            }
+            console.log(`\n Right Password was provided!`);
+            const wallet = symbol_sdk_1.SimpleWallet.createFromPrivateKey(secrects.walletName, secrects.password, secrects.privateKey, wallet_1.NETWORKTYPE);
+            console.log(`Wallet Public Key is: ${wallet.address.pretty()}`);
+            try {
+                resolve(wallet);
+            }
+            catch (_a) {
+                reject(`It was not possible to load the wallet.`);
+            }
         });
-        if (password != secrects.password.value) {
-            console.log(`\nPassword provided is wrong`);
-            loadWallet();
-        }
-        console.log(`\n Right Password was provided!`);
-        const wallet = symbol_sdk_1.SimpleWallet.createFromPrivateKey(secrects.walletName, secrects.password, secrects.privateKey, wallet_1.NETWORKTYPE);
-        console.log(`Wallet Public Key is: ${wallet.address.pretty()}`);
-        return wallet;
     });
 }
 exports.loadWallet = loadWallet;

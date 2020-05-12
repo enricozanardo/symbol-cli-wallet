@@ -60,21 +60,23 @@ function doTransaction(signedTx) {
 exports.doTransaction = doTransaction;
 function getBalance(address) {
     return __awaiter(this, void 0, void 0, function* () {
-        accountHttp.getAccountInfo(address).subscribe((accountInfo) => {
-            let mosaics = accountInfo.mosaics;
-            let mosaic = mosaics.find((mosaic) => mosaic.id.toHex() == MOSAIC_ID_UNICALCOIN);
-            if (mosaic) {
-                console.log(`\nYou have ${mosaic.amount.toString()} ${exports.MOSAIC_NAME} in your wallet`);
-            }
-            else {
-                console.log(`\n You have 0 ${exports.MOSAIC_NAME} in your balance.`);
-                console.log(`\n You could ask to ${HELP} for some ${exports.MOSAIC_NAME}`);
-            }
-        }),
-            (err) => {
-                console.log(`An error was happening and it was not possible to check the balance: ${err}`);
-            };
-        return true;
+        return new Promise((resolve, reject) => {
+            accountHttp.getAccountInfo(address).subscribe((accountInfo) => {
+                let mosaics = accountInfo.mosaics;
+                let mosaic = mosaics.find((mosaic) => mosaic.id.toHex() == MOSAIC_ID_UNICALCOIN);
+                if (mosaic) {
+                    console.log(`\nYou have ${mosaic.amount.toString()} ${exports.MOSAIC_NAME} in your wallet`);
+                }
+                else {
+                    console.log(`\n You have 0 ${exports.MOSAIC_NAME} in your balance.`);
+                    console.log(`\n You could ask to ${HELP} for some ${exports.MOSAIC_NAME}`);
+                }
+                resolve(true);
+            }),
+                (err) => {
+                    reject(console.log(`An error was happening and it was not possible to check the balance: ${err}`));
+                };
+        });
     });
 }
 exports.getBalance = getBalance;
