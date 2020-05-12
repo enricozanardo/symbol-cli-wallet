@@ -38,6 +38,15 @@ export async function loadAccount(): Promise<Account> {
     const text = fs.readFileSync(PATH_WALLET, 'utf8');
     const secrects: Secrets = JSON.parse(text);
 
+    const password = readlineSync.question(`\nInput Password: `, {
+      hideEchoBack: true,
+    });
+
+    if (password != secrects.password.value) {
+      console.log(`\nPassword provided is wrong`);
+      loadAccount();
+    }
+
     const account = Account.createFromPrivateKey(
       secrects.privateKey,
       NETWORKTYPE

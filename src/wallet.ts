@@ -19,8 +19,9 @@ import {
 } from 'symbol-sdk';
 import readlineSync from 'readline-sync';
 
-import { storeSecrets, Secrets } from './storage';
+import { storeSecrets, Secrets, loadAccount } from './storage';
 import { generateMnemonicPrivateKey } from './crypto';
+import { rejects } from 'assert';
 
 export const NETWORKTYPE = NetworkType.TEST_NET;
 export const MOSAIC_NAME = 'unicalcoins';
@@ -44,6 +45,32 @@ const transactionService = new TransactionService(
   transactionRepository,
   receiptHttp
 );
+
+export async function sendCoins(): Promise<boolean> {
+  return new Promise<boolean>(async (resolve, reject) => {
+    const recipientAddress = readlineSync.question(
+      '\nWallet address [ex. TB..]: '
+    ); // TBMXSZXAEK7X6JC4XB7R5Y4JGPWNBALTBTYV4KAK
+
+    const rawAmount = readlineSync.question(`\n${MOSAIC_NAME} to send: `);
+    const textToSend = readlineSync.question('\nText to send: ');
+
+    const account = await loadAccount();
+
+    const amount = parseInt(rawAmount);
+
+    const rawTx = createTransaction(recipientAddress, amount, textToSend);
+    const signedTx = signTransaction(account, rawTx);
+
+    await doTransaction(signedTx);
+
+    try {
+      resolve(true);
+    } catch {
+      reject(false);
+    }
+  });
+}
 
 // TX
 export function createTransaction(
