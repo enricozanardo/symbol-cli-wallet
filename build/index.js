@@ -9,14 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const wallet_1 = require("./wallet");
+const cli_1 = require("./cli");
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        // createAccount();
-        // const wallet = await loadWallet(); // TB4OGR-3BXBKR-IVQFJP-MKUSJX-6UIFUE-OTYAOC-3OWQ
-        // getBalance(wallet.address);
-        // process.exit();
-        wallet_1.sendCoins();
+        // sendCoins();
+        cli_1.cli();
     });
 }
 main();
