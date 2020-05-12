@@ -7,7 +7,6 @@ import { loadWallet } from './storage';
 import { cli } from './cli';
 
 async function main() {
-  // sendCoins();
   cli();
 }
 

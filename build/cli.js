@@ -27,6 +27,12 @@ function cmdBalance() {
         loadCli();
     });
 }
+function cmdSendCoins() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield wallet_1.sendCoins();
+        loadCli();
+    });
+}
 function cmdCreateAccount() {
     wallet_1.createAccount();
     loadCli();
@@ -64,7 +70,7 @@ function cli() {
             cmdBalance();
             break;
         case "TRANSACTION" /* transaction */:
-            console.log(commands[index]);
+            cmdSendCoins();
             break;
         case "CLOSE" /* close */:
             process.exit();

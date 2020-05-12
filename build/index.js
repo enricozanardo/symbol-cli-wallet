@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cli_1 = require("./cli");
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        // sendCoins();
         cli_1.cli();
     });
 }

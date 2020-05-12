@@ -8,15 +8,15 @@ const CFont = require('cfonts');
 const clear = require('clear');
 var colors = require('colors/safe');
 
-async function cmdSendCoins() {
-  await sendCoins();
-  loadCli();
-}
-
 async function cmdBalance() {
   const wallet = await loadWallet();
   await getBalance(wallet.address);
   // Go back?
+  loadCli();
+}
+
+async function cmdSendCoins() {
+  await sendCoins();
   loadCli();
 }
 
@@ -75,7 +75,6 @@ export function cli() {
       break;
     case Commands.transaction:
       cmdSendCoins();
-      console.log(commands[index]);
       break;
     case Commands.close:
       process.exit();
