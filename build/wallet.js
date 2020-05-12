@@ -88,11 +88,11 @@ function getBalance(address) {
                 let mosaics = accountInfo.mosaics;
                 let mosaic = mosaics.find((mosaic) => mosaic.id.toHex() == MOSAIC_ID_UNICALCOIN);
                 if (mosaic) {
-                    console.log(`\nYou have ${mosaic.amount.toString()} ${exports.MOSAIC_NAME} in your wallet`);
+                    console.log(colors.yellow(`\nYou have ${mosaic.amount.toString()} ${exports.MOSAIC_NAME} in your wallet`));
                 }
                 else {
-                    console.log(`\n You have 0 ${exports.MOSAIC_NAME} in your balance.`);
-                    console.log(`\n You could ask to ${HELP} for some ${exports.MOSAIC_NAME}`);
+                    console.log(colors.red(`\n You have 0 ${exports.MOSAIC_NAME} in your balance.`));
+                    console.log(colors.red(`\n You could ask to ${HELP} for some ${exports.MOSAIC_NAME}`));
                 }
                 resolve(true);
             }),
@@ -104,7 +104,7 @@ function getBalance(address) {
 }
 exports.getBalance = getBalance;
 function createAccount() {
-    console.log(`\nPlease enter an unique passord (8 character minumum).\n`);
+    console.log(colors.yellow(`\nPlease enter an unique passord (8 character minumum).\n`));
     let inputPassword = readline_sync_1.default.questionNewPassword(`\nInput a Password: `, {
         min: 8,
         max: 12,
@@ -118,8 +118,8 @@ function createAccount() {
         privateKey: priv_key,
         walletName: walletName,
     };
-    console.log(`A new wallet is generated with address: ${wallet.address.pretty()}`); // TCGCYI-IOBQQB-M7P7DW-SAA2FT-AQG67E-YRJZVN-EGZ7
-    console.log(`You can now start to send and receive ${exports.MOSAIC_NAME}`);
+    console.log(colors.blue(`A new wallet is generated with address: ${wallet.address.pretty()}`)); // TCGCYI-IOBQQB-M7P7DW-SAA2FT-AQG67E-YRJZVN-EGZ7
+    console.log(colors.yellow(`You can now start to send and receive ${exports.MOSAIC_NAME}`));
     storage_1.storeSecrets(secret);
 }
 exports.createAccount = createAccount;

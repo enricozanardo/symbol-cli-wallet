@@ -5,12 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var mnGen = require('mngen');
 const hasha_1 = __importDefault(require("hasha"));
+var colors = require('colors/safe');
 function sha256(word) {
     return hasha_1.default(word, { algorithm: 'sha256', encoding: 'hex' });
 }
 function generateMnemonicPrivateKey() {
     const mnemonic = mnGen.list(4); // [provide,crimson,float,carrot]
-    console.log(`Write down those mnemonic worlds that are used to generate your private key ${mnemonic}`);
+    console.log(`Write down those mnemonic worlds that are used to generate your private key:`);
+    console.log(colors.yellow(`\n${mnemonic}`));
     let hashes = [];
     mnemonic.map((world) => {
         hashes.push(sha256(world));

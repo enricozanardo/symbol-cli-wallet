@@ -16,6 +16,7 @@ const os_1 = __importDefault(require("os"));
 const fs_1 = __importDefault(require("fs"));
 const symbol_sdk_1 = require("symbol-sdk");
 const readline_sync_1 = __importDefault(require("readline-sync"));
+var colors = require('colors/safe');
 const wallet_1 = require("./wallet");
 function storeSecrets(secrets) {
     const PATH_HOME = `${os_1.default.homedir()}/${wallet_1.MOSAIC_NAME}-wallets`;
@@ -29,7 +30,7 @@ function storeSecrets(secrets) {
         fullPath = `${PATH_HOME}/${stamp}-${wallet_1.MOSAIC_NAME}-secrets.enry`;
     }
     fs_1.default.writeFileSync(fullPath, JSON.stringify(secrets));
-    console.log(`Secrets stored!. ${fullPath}`);
+    console.log(colors.yellow(`\nSecrets stored!. ${fullPath}`));
 }
 exports.storeSecrets = storeSecrets;
 function loadAccount() {
@@ -43,7 +44,7 @@ function loadAccount() {
                 hideEchoBack: true,
             });
             if (password != secrects.password.value) {
-                console.log(`\nPassword provided is wrong`);
+                console.log(colors.red(`\nPassword provided is wrong`));
                 loadAccount();
             }
             const account = symbol_sdk_1.Account.createFromPrivateKey(secrects.privateKey, wallet_1.NETWORKTYPE);
@@ -51,7 +52,7 @@ function loadAccount() {
                 resolve(account);
             }
             catch (_a) {
-                reject(console.log(`It was not possible to retrive the account`));
+                reject(console.log(colors.red(`\nIt was not possible to retrive the account`)));
             }
         });
     });
@@ -68,12 +69,12 @@ function loadWallet() {
                 hideEchoBack: true,
             });
             if (password != secrects.password.value) {
-                console.log(`\nPassword provided is wrong`);
+                console.log(colors.red(`\nPassword provided is wrong`));
                 loadWallet();
             }
-            console.log(`\n Right Password was provided!`);
+            console.log(colors.green(`\nRight Password was provided!`));
             const wallet = symbol_sdk_1.SimpleWallet.createFromPrivateKey(secrects.walletName, secrects.password, secrects.privateKey, wallet_1.NETWORKTYPE);
-            console.log(`Wallet Public Key is: ${wallet.address.pretty()}`);
+            console.log(colors.yellow(`\nWallet Public Key is: ${wallet.address.pretty()}`));
             try {
                 resolve(wallet);
             }
