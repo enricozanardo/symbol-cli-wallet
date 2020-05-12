@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const symbol_sdk_1 = require("symbol-sdk");
 const readline_sync_1 = __importDefault(require("readline-sync"));
+var colors = require('colors/safe');
 const storage_1 = require("./storage");
 const crypto_1 = require("./crypto");
 exports.NETWORKTYPE = symbol_sdk_1.NetworkType.TEST_NET;
@@ -29,6 +30,31 @@ const transactionRepository = repositoryFactory.createTransactionRepository();
 const receiptHttp = repositoryFactory.createReceiptRepository();
 const listener = repositoryFactory.createListener();
 const transactionService = new symbol_sdk_1.TransactionService(transactionRepository, receiptHttp);
+function sendCoins() {
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            const account = yield storage_1.loadAccount();
+            const rawRecipientAddress = readline_sync_1.default.question('\nWallet address [ex. TB..]: '); // TBMXSZXAEK7X6JC4XB7R5Y4JGPWNBALTBTYV4KAK
+            const recipientAddress = symbol_sdk_1.Address.createFromRawAddress(rawRecipientAddress);
+            const rawAmount = readline_sync_1.default.question(`\n${exports.MOSAIC_NAME} to send: `);
+            const amount = parseInt(rawAmount);
+            const textToSend = readline_sync_1.default.question('\nText to send: ');
+            const rawTx = createTransaction(recipientAddress.pretty(), amount, textToSend);
+            const signedTx = signTransaction(account, rawTx);
+            yield doTransaction(signedTx);
+            console.log(colors.green(`\n Transfered ${amount} ${exports.MOSAIC_NAME} from ${account.address.pretty()} to address: ${recipientAddress.pretty()} 🙌 🚀`));
+            let checkURL = `\nTranscation link: ${nodeUrl}/transaction/${signedTx.hash}/status \n`;
+            console.log(checkURL);
+            try {
+                resolve(true);
+            }
+            catch (_a) {
+                reject(false);
+            }
+        }));
+    });
+}
+exports.sendCoins = sendCoins;
 // TX
 function createTransaction(rawRecipientAddress, amount, text) {
     const recipientAddress = symbol_sdk_1.Address.createFromRawAddress(rawRecipientAddress);
@@ -38,12 +64,10 @@ function createTransaction(rawRecipientAddress, amount, text) {
     ], symbol_sdk_1.PlainMessage.create(text), exports.NETWORKTYPE, symbol_sdk_1.UInt64.fromUint(2000000));
     return transferTransaction;
 }
-exports.createTransaction = createTransaction;
 // Sign
 function signTransaction(account, tx) {
     return account.sign(tx, generationHash);
 }
-exports.signTransaction = signTransaction;
 // Announce the transaction to the network
 function doTransaction(signedTx) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -57,7 +81,6 @@ function doTransaction(signedTx) {
         });
     });
 }
-exports.doTransaction = doTransaction;
 function getBalance(address) {
     return __awaiter(this, void 0, void 0, function* () {
         return new Promise((resolve, reject) => {

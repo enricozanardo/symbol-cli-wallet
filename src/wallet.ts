@@ -18,10 +18,10 @@ import {
   TransactionAnnounceResponse,
 } from 'symbol-sdk';
 import readlineSync from 'readline-sync';
+var colors = require('colors/safe');
 
 import { storeSecrets, Secrets, loadAccount } from './storage';
 import { generateMnemonicPrivateKey } from './crypto';
-import { rejects } from 'assert';
 
 export const NETWORKTYPE = NetworkType.TEST_NET;
 export const MOSAIC_NAME = 'unicalcoins';
@@ -48,21 +48,35 @@ const transactionService = new TransactionService(
 
 export async function sendCoins(): Promise<boolean> {
   return new Promise<boolean>(async (resolve, reject) => {
-    const recipientAddress = readlineSync.question(
+    const account = await loadAccount();
+
+    const rawRecipientAddress = readlineSync.question(
       '\nWallet address [ex. TB..]: '
     ); // TBMXSZXAEK7X6JC4XB7R5Y4JGPWNBALTBTYV4KAK
 
+    const recipientAddress = Address.createFromRawAddress(rawRecipientAddress);
+
     const rawAmount = readlineSync.question(`\n${MOSAIC_NAME} to send: `);
+    const amount = parseInt(rawAmount);
     const textToSend = readlineSync.question('\nText to send: ');
 
-    const account = await loadAccount();
-
-    const amount = parseInt(rawAmount);
-
-    const rawTx = createTransaction(recipientAddress, amount, textToSend);
+    const rawTx = createTransaction(
+      recipientAddress.pretty(),
+      amount,
+      textToSend
+    );
     const signedTx = signTransaction(account, rawTx);
 
     await doTransaction(signedTx);
+
+    console.log(
+      colors.green(
+        `\n Transfered ${amount} ${MOSAIC_NAME} from ${account.address.pretty()} to address: ${recipientAddress.pretty()} 🙌 🚀`
+      )
+    );
+
+    let checkURL = `\nTranscation link: ${nodeUrl}/transaction/${signedTx.hash}/status \n`;
+    console.log(checkURL);
 
     try {
       resolve(true);
@@ -73,7 +87,7 @@ export async function sendCoins(): Promise<boolean> {
 }
 
 // TX
-export function createTransaction(
+function createTransaction(
   rawRecipientAddress: string,
   amount: number,
   text: string
@@ -99,7 +113,7 @@ export function createTransaction(
 }
 
 // Sign
-export function signTransaction(
+function signTransaction(
   account: Account,
   tx: TransferTransaction
 ): SignedTransaction {
@@ -107,7 +121,7 @@ export function signTransaction(
 }
 
 // Announce the transaction to the network
-export async function doTransaction(
+async function doTransaction(
   signedTx: SignedTransaction
 ): Promise<TransactionAnnounceResponse> {
   return new Promise<TransactionAnnounceResponse>((resolve, reject) => {

@@ -39,6 +39,13 @@ function loadAccount() {
             const PATH_WALLET = `${PATH_HOME}/${wallet_1.MOSAIC_NAME}-wallet.enry`;
             const text = fs_1.default.readFileSync(PATH_WALLET, 'utf8');
             const secrects = JSON.parse(text);
+            const password = readline_sync_1.default.question(`\nInput Password: `, {
+                hideEchoBack: true,
+            });
+            if (password != secrects.password.value) {
+                console.log(`\nPassword provided is wrong`);
+                loadAccount();
+            }
             const account = symbol_sdk_1.Account.createFromPrivateKey(secrects.privateKey, wallet_1.NETWORKTYPE);
             try {
                 resolve(account);

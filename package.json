@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "clear": "^0.1.0",
+    "colors": "^1.4.0",
     "hasha": "^5.2.0",
     "mngen": "^1.1.0",
     "readline-sync": "^1.4.10",

@@ -10,21 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const wallet_1 = require("./wallet");
-const storage_1 = require("./storage");
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         // createAccount();
         // const wallet = await loadWallet(); // TB4OGR-3BXBKR-IVQFJP-MKUSJX-6UIFUE-OTYAOC-3OWQ
         // getBalance(wallet.address);
-        const to = 'TBMXSZXAEK7X6JC4XB7R5Y4JGPWNBALTBTYV4KAK';
-        const amount = 22;
-        const text = 'Hi there';
-        const rawTx = wallet_1.createTransaction(to, amount, text);
-        const account = yield storage_1.loadAccount();
-        const signedTx = wallet_1.signTransaction(account, rawTx);
-        const response = yield wallet_1.doTransaction(signedTx);
-        console.log(response);
         // process.exit();
+        wallet_1.sendCoins();
     });
 }
 main();
