@@ -151,11 +151,17 @@ export async function getBalance(address: Address): Promise<boolean> {
 
       if (mosaic) {
         console.log(
-          `\nYou have ${mosaic.amount.toString()} ${MOSAIC_NAME} in your wallet`
+          colors.yellow(
+            `\nYou have ${mosaic.amount.toString()} ${MOSAIC_NAME} in your wallet`
+          )
         );
       } else {
-        console.log(`\n You have 0 ${MOSAIC_NAME} in your balance.`);
-        console.log(`\n You could ask to ${HELP} for some ${MOSAIC_NAME}`);
+        console.log(
+          colors.red(`\n You have 0 ${MOSAIC_NAME} in your balance.`)
+        );
+        console.log(
+          colors.red(`\n You could ask to ${HELP} for some ${MOSAIC_NAME}`)
+        );
       }
       resolve(true);
     }),
@@ -170,7 +176,9 @@ export async function getBalance(address: Address): Promise<boolean> {
 }
 
 export function createAccount() {
-  console.log(`\nPlease enter an unique passord (8 character minumum).\n`);
+  console.log(
+    colors.yellow(`\nPlease enter an unique passord (8 character minumum).\n`)
+  );
 
   let inputPassword = readlineSync.questionNewPassword(`\nInput a Password: `, {
     min: 8,
@@ -196,10 +204,14 @@ export function createAccount() {
   };
 
   console.log(
-    `A new wallet is generated with address: ${wallet.address.pretty()}`
+    colors.blue(
+      `A new wallet is generated with address: ${wallet.address.pretty()}`
+    )
   ); // TCGCYI-IOBQQB-M7P7DW-SAA2FT-AQG67E-YRJZVN-EGZ7
 
-  console.log(`You can now start to send and receive ${MOSAIC_NAME}`);
+  console.log(
+    colors.yellow(`You can now start to send and receive ${MOSAIC_NAME}`)
+  );
 
   storeSecrets(secret);
 }

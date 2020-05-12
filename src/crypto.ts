@@ -1,5 +1,6 @@
 var mnGen = require('mngen');
 import hasha from 'hasha';
+var colors = require('colors/safe');
 
 function sha256(word: string): string {
   return hasha(word, { algorithm: 'sha256', encoding: 'hex' });
@@ -9,8 +10,9 @@ export function generateMnemonicPrivateKey(): string {
   const mnemonic: string[] = mnGen.list(4); // [provide,crimson,float,carrot]
 
   console.log(
-    `Write down those mnemonic worlds that are used to generate your private key ${mnemonic}`
+    `Write down those mnemonic worlds that are used to generate your private key:`
   );
+  console.log(colors.yellow(`\n${mnemonic}`));
 
   let hashes: string[] = [];
   mnemonic.map((world) => {

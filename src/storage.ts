@@ -2,6 +2,7 @@ import os from 'os';
 import fs, { readFileSync } from 'fs';
 import { Account, Password, SimpleWallet, NetworkType } from 'symbol-sdk';
 import readlineSync from 'readline-sync';
+var colors = require('colors/safe');
 
 import { MOSAIC_NAME, NETWORKTYPE } from './wallet';
 
@@ -27,7 +28,7 @@ export function storeSecrets(secrets: Secrets) {
 
   fs.writeFileSync(fullPath, JSON.stringify(secrets));
 
-  console.log(`Secrets stored!. ${fullPath}`);
+  console.log(colors.yellow(`\nSecrets stored!. ${fullPath}`));
 }
 
 export async function loadAccount(): Promise<Account> {
@@ -43,7 +44,7 @@ export async function loadAccount(): Promise<Account> {
     });
 
     if (password != secrects.password.value) {
-      console.log(`\nPassword provided is wrong`);
+      console.log(colors.red(`\nPassword provided is wrong`));
       loadAccount();
     }
 
@@ -55,7 +56,9 @@ export async function loadAccount(): Promise<Account> {
     try {
       resolve(account);
     } catch {
-      reject(console.log(`It was not possible to retrive the account`));
+      reject(
+        console.log(colors.red(`\nIt was not possible to retrive the account`))
+      );
     }
   });
 }
@@ -73,10 +76,10 @@ export async function loadWallet(): Promise<SimpleWallet> {
     });
 
     if (password != secrects.password.value) {
-      console.log(`\nPassword provided is wrong`);
+      console.log(colors.red(`\nPassword provided is wrong`));
       loadWallet();
     }
-    console.log(`\n Right Password was provided!`);
+    console.log(colors.green(`\nRight Password was provided!`));
 
     const wallet = SimpleWallet.createFromPrivateKey(
       secrects.walletName,
@@ -85,7 +88,9 @@ export async function loadWallet(): Promise<SimpleWallet> {
       NETWORKTYPE
     );
 
-    console.log(`Wallet Public Key is: ${wallet.address.pretty()}`);
+    console.log(
+      colors.yellow(`\nWallet Public Key is: ${wallet.address.pretty()}`)
+    );
 
     try {
       resolve(wallet);
