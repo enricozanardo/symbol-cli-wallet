@@ -1,5 +1,5 @@
 {
-  "name": "cli-app",
+  "name": "unicalwallet-cli",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,8 +10,8 @@
     "build": "tsc --build tsconfig.json",
     "start": "node build/index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Enrico Zanardo",
+  "license": "MIT",
   "devDependencies": {
     "@types/hasha": "^3.0.1",
     "@types/node": "^13.13.5",
