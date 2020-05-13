@@ -8,14 +8,13 @@ This project is connected with the course provided on [Blockchain Course](https:
 
 You will find a step by step video course in how to build it on that course [link](https://blockchain-cryptocurrency.thinkific.com/)
 
-If you want to test the app and receive some UnicalCoins 💰 just send [me](mailto:ezanardo@onezerobinary.com) an email with your ADDRESS ;) 
+If you want to test the app and receive some UnicalCoins 💰 just send [me](mailto:ezanardo@onezerobinary.com) an email with your ADDRESS ;)
 
 ### Mnemonic Private Key Generator
 
 The following code show the builded function used to create a mnemonic private key starting from 4 random english words, hashing them like a mini markle tree and giving back a private key of 64 bit (sha256).
 
 ```ts
-
 var mnGen = require('mngen');
 import hasha from 'hasha';
 var colors = require('colors/safe');
@@ -45,13 +44,12 @@ export function generateMnemonicPrivateKey(): string {
 
   return privateKey;
 }
-
-``` 
+```
 
 ### Run the project:
 
-
 #### 1. Clone the repo:
+
 ```
 git clone https://github.com/onezerobinary/symbol-cli-wallet.git
 ```
@@ -61,30 +59,21 @@ git clone https://github.com/onezerobinary/symbol-cli-wallet.git
 ```
 cd symbol-cli-wallet
 ```
+
 ```
-yarn 
+yarn
 ```
 
 #### 3. Compile the project
+
 ```
-cd src/
-```
-```
-tsc --build ../tsconfig.json
+yarn build
 ```
 
 #### 4. Run the Blockchain CLI UnicalCoin App
-```
-cd ..
-```
-```
-node build/index.js
-```
 
-
+```
+yarn start
+```
 
 Happy hacking! 🤙🏼
-
-
-
-
