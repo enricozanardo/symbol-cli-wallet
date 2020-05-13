@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:build": "tsc -w",
-    "start:run": "nodemon build build/index.js",
-    "start": "concurrently npm:start:*"
+    "dev:build": "tsc -w",
+    "dev:run": "nodemon build build/index.js",
+    "dev": "concurrently npm:start:*",
+    "build": "tsc --build tsconfig.json",
+    "start": "node build/index.js"
   },
   "author": "",
   "license": "ISC",
