@@ -27,5 +27,8 @@
     "mngen": "^1.1.0",
     "readline-sync": "^1.4.10",
     "symbol-sdk": "^0.18.0"
+  },
+  "bin": {
+    "unical": "./build/index.js"
   }
 }
