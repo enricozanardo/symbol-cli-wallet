@@ -4,7 +4,7 @@ A Command Line Interface with mnemonic private key generator for the Symbol Bloc
 
 This project is connected with the course provided on [Blockchain Course](https://blockchain-cryptocurrency.thinkific.com/)
 
-![foo](img/cli.png)
+![cli](./img/cli.png)
 
 You will find a step by step video course in how to build it on that course [link](https://blockchain-cryptocurrency.thinkific.com/)
 

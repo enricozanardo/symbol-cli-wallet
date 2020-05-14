@@ -1,8 +1,10 @@
 {
   "name": "unicalwallet-cli",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "1.0.1",
+  "description": "CLI wallet for the Symbol SDK from NEM Blockchain",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "keywords": ["CLI", "Symbol", "NEM", "Blockchain", "Wallet", "Enrico", "Zanardo", "enrynewton"],
   "scripts": {
     "dev:build": "tsc -w",
     "dev:run": "nodemon build build/index.js",
