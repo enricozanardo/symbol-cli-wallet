@@ -1,5 +1,6 @@
 import os from 'os';
 import fs, { readFileSync } from 'fs';
+
 import { Account, Password, SimpleWallet, NetworkType } from 'symbol-sdk';
 import readlineSync from 'readline-sync';
 var colors = require('colors/safe');

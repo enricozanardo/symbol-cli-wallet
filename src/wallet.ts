@@ -26,17 +26,25 @@ import { generateMnemonicPrivateKey } from './crypto';
 export const NETWORKTYPE = NetworkType.TEST_NET;
 export const MOSAIC_NAME = 'unicalcoins';
 
-const MOSAIC_ID_UNICALCOIN = '6CAA8A74284FC608';
+// const OLD_MOSAIC_ID_UNICALCOIN = '6CAA8A74284FC608';
+const MOSAIC_ID_UNICALCOIN = '7E7E69F892357A30';
 const unicalcoin_divisibility = 0;
 
 const HELP = 'ezanardo@onezerobinary.com';
 
-const nodeUrl = 'http://api-01.eu-central-1.symboldev.network:3000';
+// const old_nodeUrl = 'http://api-01.eu-central-1.symboldev.network:3000';
+const nodeUrl =
+  'http://api-01.eu-central-1.testnet-0951-v1.symboldev.network:3000';
+
+const transactionURL = 'http://explorer-951.symboldev.network/transaction/';
+
 const repositoryFactory = new RepositoryFactoryHttp(nodeUrl);
 const accountHttp = repositoryFactory.createAccountRepository();
 
-const generationHash =
+const old_generationHash =
   '44D2225B8932C9A96DCB13508CBCDFFA9A9663BFBA2354FEEC8FCFCB7E19846C';
+const generationHash =
+  '4009619EB7A9F824C5D0EE0E164E0F99CCD7906A475D7768FD60B452204BD0A2';
 
 const transactionRepository = repositoryFactory.createTransactionRepository();
 const receiptHttp = repositoryFactory.createReceiptRepository();
@@ -75,7 +83,7 @@ export async function sendCoins(): Promise<boolean> {
       )
     );
 
-    let checkURL = `\nTranscation link: ${nodeUrl}/transaction/${signedTx.hash}/status \n`;
+    let checkURL = `\nTranscation link: ${transactionURL}${signedTx.hash}/status \n`;
     console.log(checkURL);
 
     try {
